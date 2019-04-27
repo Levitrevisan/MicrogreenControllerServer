@@ -2,16 +2,16 @@
 
 ## Resources:
     
-    Python 3.6
-    Libs: paho-mqtt
+Python 3.6
+Libs: paho-mqtt
 
 ## Goals:
 
-    Develop a tool to listen to controllers, store received data on database and check if devices are still alive
+Develop a tool to listen to controllers, store received data on database and check if devices are still alive
 
 ## Next steps:
 
-    Test with real microncontrolled device sending commands and waiting for reception confirmation 
+Test with real microncontrolled device sending commands and waiting for reception confirmation 
 
 
 ## Information:
