@@ -9,13 +9,14 @@ username = "paiqlirh"
 password = "V4ig-DwmZsCA"
 
 #MQTT Topics definitions:
+MQTT_TOPIC = [("ledStatus",1),("temperature",1)]
 topicSubscribe = "ledStatus"
 topicSender = "confirmationLedStatus"
 
 #MQTT Connect to broker function
 def on_connect(client, userdata, flags, rc):
  print("[STATUS] Connecting to broker: " + str(rc))
- client.subscribe(topicSubscribe)
+ client.subscribe(MQTT_TOPIC)
  
 #Reception callback function
 def on_message(client, userdata, msg):
