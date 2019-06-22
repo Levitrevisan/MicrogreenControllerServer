@@ -1,12 +1,13 @@
 import paho.mqtt.client as mqtt
 import sys
+import credentials
 
 #MQTT Connection definitions: 
-broker = "m16.cloudmqtt.com"
-PortaBroker = 10746
+broker = credentials.MQTTBroker
+PortaBroker = credentials.MQTTPort
 KeepAliveBroker = 60
-username = "paiqlirh"
-password = "V4ig-DwmZsCA"
+username = credentials.MQTTUsername
+password = credentials.MQTTPassword
 
 #MQTT Topics definitions:
 MQTT_TOPIC = [("ledStatus",1),("temperature",1)]
