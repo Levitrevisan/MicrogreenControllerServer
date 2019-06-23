@@ -2,45 +2,56 @@ import paho.mqtt.client as mqtt
 import sys
 import credentials
 
-#MQTT Connection definitions: 
+# MQTT Connection definitions:
 broker = credentials.MQTTBroker
 PortaBroker = credentials.MQTTPort
 KeepAliveBroker = 60
 username = credentials.MQTTUsername
 password = credentials.MQTTPassword
 
-#MQTT Topics definitions:
-MQTT_TOPIC = [("ledStatus",1),("temperature",1)]
+# MQTT Topics definitions:
+MQTT_TOPIC = [("ledStatus", 1), ("temperature", 1)]
 topicSubscribe = "ledStatus"
 topicSender = "confirmationLedStatus"
 
-#MQTT Connect to broker function
+# MQTT Connect to broker function
 def on_connect(client, userdata, flags, rc):
- print("[STATUS] Connecting to broker: " + str(rc))
- client.subscribe(MQTT_TOPIC)
- 
-#Reception callback function
-def on_message(client, userdata, msg):
- MensagemRecebida = str(msg.payload)
- print("[MSG RECEIVED] Topic: " + msg.topic + " / Message: " + MensagemRecebida)
- sendMessage(topicSender,"OK")
+    print("[STATUS] Connecting to broker: " + str(rc))
+    client.subscribe(MQTT_TOPIC)
 
-#Send function
+# Reception callback function
+def on_message(client, userdata, msg):
+    MensagemRecebida = str(msg.payload)
+    if msg.topic == 'temperature':
+        temperatureReceived(MensagemRecebida)
+    if msg.topic == 'ledStatus':
+        LEDStatusReceived(MensagemRecebida)
+
+    sendMessage(topicSender, "OK")
+
+def temperatureReceived(temperature):
+    print("[Temperature reading] " + temperature + "°C")
+
+
+def LEDStatusReceived(ledStatus):
+    print("[LED status reading] " + ledStatus)
+
+# Send function
 def sendMessage(topic, msg):
- client.publish(topic,msg)
- print("[MSG SENT] Topic: " + topic + " / Message: " + msg)
- 
-#Main:
+    client.publish(topic, msg)
+    print("[MSG SENT] Topic: " + topic + " / Message: " + msg)
+
+# Main:
 try:
-        print("[STATUS] Inicializando MQTT...")
-        #inicializa MQTT:
-        client = mqtt.Client()
-        client.on_connect = on_connect
-        client.on_message = on_message
-        client.username_pw_set(username, password)
-        client.connect(broker, PortaBroker, KeepAliveBroker)
-        client.loop_forever()
+    print("[STATUS] Inicializando MQTT...")
+    # inicializa MQTT:
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.username_pw_set(username, password)
+    client.connect(broker, PortaBroker, KeepAliveBroker)
+    client.loop_forever()
 
 except KeyboardInterrupt:
-        print ("\nClosing application and exiting.")
-        sys.exit(0)
+    print("\nClosing application and exiting.")
+    sys.exit(0)

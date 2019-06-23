@@ -4,5 +4,8 @@
     "python.autoComplete.extraPaths": [
         "${env:SPARK_HOME}\\python",
         "${env:SPARK_HOME}\\python\\pyspark"
-    ]
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.enabled": true
 }
